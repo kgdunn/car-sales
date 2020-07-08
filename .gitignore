@@ -98,3 +98,4 @@ ENV/
 /figures/
 /output/
 .vscode/settings.json
+.vscode/launch.json
