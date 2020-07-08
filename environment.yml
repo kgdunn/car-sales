@@ -1,0 +1,3 @@
+name: gdd-car-sales
+dependencies:
+- python=3.8
