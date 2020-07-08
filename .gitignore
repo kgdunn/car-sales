@@ -97,3 +97,4 @@ ENV/
 /data/
 /figures/
 /output/
+.vscode/settings.json
