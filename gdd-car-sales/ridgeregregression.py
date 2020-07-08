@@ -12,7 +12,7 @@ class MyRidge():
         
     def fit(self, X, y, lambda=1):
 
-        # training data & ground truth data
+        # training data 
         self.data = X
         self.target = y
         
@@ -20,7 +20,8 @@ class MyRidge():
         XtX = X.T.dot(X)
         Xty = X.T.dot(y)
         m = X.shape[0]        
-        # Do Rdige regression
+        
+        # Do Ridge regression
         coef = np.linalg.inv(XtX +lambda*np.eye(m)).dot(Xty)
 
         self.coef_ =coef
