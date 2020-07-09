@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
 
 # Load from the data folder. Note: this script starts in the directory one level higher than the
 # data folder.
@@ -20,6 +22,14 @@ columns_to_use = [
     "yearOfRegistration",
     "dateCreated",
 ]
+
+def convert_to_numerical(df):
+    labelencoder_X = LabelEncoder()
+    df[:,0] = labelencoder_X.fit_transform(X[:,0])
+    onehotencoder = OneHotEncoder(categorical_features=[0,1])
+    X = onehotencoder.fit_transform(X).toarray()
+    
+
 
 
 def read_data(filename, columns_to_use):
@@ -41,6 +51,7 @@ def read_data(filename, columns_to_use):
 if __name__ == "__main__":
 
     df = read_data(filename, columns_to_use)
+    print(convert_cat_to_num(df))
     X_train, X_test = train_test_split(df, test_size=0.40, random_state=42)
     print(
         X_train.shape, X_test.shape,
