@@ -5,6 +5,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.model_selection import train_test_split
+from sklearn.base import BaseEstimator
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer, make_column_selector
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+
 
 # Load from the data folder. Note: this script starts in the directory one level higher than the
 # data folder.
@@ -20,6 +28,12 @@ columns_to_use = [
     "yearOfRegistration",
     "dateCreated",
 ]
+
+# Linsey: subset of the above
+numerical_columns = []
+
+# Joost: subset of the above
+categorical_columns = []
 
 
 def read_data(filename, columns_to_use):
@@ -38,6 +52,38 @@ def read_data(filename, columns_to_use):
     return df
 
 
+def create_pipeline():
+    """
+    Creates a pipeline of all the prior steps.
+    """
+
+    # Pipeline from Linsey
+    num_pipeline = Pipeline(...)
+
+    # Pipeline from Joost
+    cat_pipeline = Pipeline(...)
+
+    # Combine the two types of data:
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("numerical", num_pipeline, numerical_columns),
+            ("categorical", cat_pipeline, categorical_columns),
+        ],
+        remainder="drop",
+    )
+
+    # Kevin: ColumnExtractor (from yesterday)
+    # Eduard: RidgeRegression
+    pipeline = Pipeline(
+        steps=[
+            ("select", ColumnExtractor(columns=columns_to_use)),
+            ("preprocess", preprocessor),
+            ("model", RidgeRegression()),
+        ]
+    )
+    return pipeline
+
+
 if __name__ == "__main__":
 
     df = read_data(filename, columns_to_use)
@@ -46,3 +92,25 @@ if __name__ == "__main__":
         X_train.shape, X_test.shape,
     )
     print(X_train.head())
+
+    pipeline = create_pipeline()
+    """
+    Create a model pipeline that consists of ColumnTransformer for preprocessing the data and 
+    RidgeRegression for fitting the model
+
+    Perform a grid search over your whole pipeline and visualize the results. Right now your 
+    pipeline does not have a whole lot of parameters to search over, you have an alpha in the 
+    RidgeRegression and you can also play with an imputation strategy. If you have time and 
+    energy left you can try adding other preprocessing steps (polynomial features, 
+    different scalers, ...?) or a different ML model.
+    """
+
+    # Kevin: will set parameters to tune here
+    param_grid = {
+        "preprocess__numerical__impute__strategy": ["median", "mean"],
+        "model__n_estimators": [10, 50, 100],
+    }
+    grid_clf = GridSearchCV(pipeline, param_grid, cv=5)
+    grid_clf.fit(features, targets)
+
+    # Kevin/others: visualize results
