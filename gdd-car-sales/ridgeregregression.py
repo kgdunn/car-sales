@@ -5,6 +5,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+''' TOWARDS
+myRidge = MyRidge()
+parameters = {‘lambda’, [0.01, 0.1 ,0,1 ,100,1000]}
+myRidgeReg = GridSearchCV(..)
+myRidgeReg.fit(X,y)
+''' 
+
+
 class MyRidge():
     
     def __init__(self):
