@@ -29,10 +29,10 @@ columns_to_use = [
     "dateCreated",
 ]
 
-# Linsey: subset of the above
+# Joost: subset of the above
 numerical_columns = []
 
-# Joost: subset of the above
+# Linsey: subset of the above
 categorical_columns = []
 
 
@@ -57,10 +57,10 @@ def create_pipeline():
     Creates a pipeline of all the prior steps.
     """
 
-    # Pipeline from Linsey
+    # Pipeline from Joost
     num_pipeline = Pipeline(...)
 
-    # Pipeline from Joost
+    # Pipeline from Linsey
     cat_pipeline = Pipeline(...)
 
     # Combine the two types of data:
