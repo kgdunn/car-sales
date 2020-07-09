@@ -13,16 +13,62 @@ myRidgeReg.fit(X,y)
 ''' 
 
 
-class MyRidge():
+class MyMetrics:
+    
+    def sse(self):
+        '''returns sum of squared errors (model vs actual)'''
+        squared_errors = (self.y_ - self.predict(self.X_)) ** 2
+        self.sq_error_ = np.sum(squared_errors)
+        return self.sq_error_
+        
+    def sst(self):
+        '''returns total sum of squared errors (actual vs avg(actual))'''
+        avg_y = np.mean(self.y_)
+        squared_errors = (self.y_ - avg_y) ** 2
+        self.sst_ = np.sum(squared_errors)
+        return self.sst_
+    
+    def r_squared(self):
+        '''returns calculated value of r^2'''
+        self.r_sq_ = 1 - self.sse()/self.sst()
+        if self.r_sq_ < 0:
+            self.r_sq_ = 0
+        return self.r_sq_
+    
+    def adj_r_squared(self):
+        '''returns calculated value of adjusted r^2'''
+        self.adj_r_sq_ = 1 - (self.sse()/self._dfe) / (self.sst()/self._dft)
+        return self.adj_r_sq_
+       
+    def mse(self):
+        '''returns calculated value of mse'''
+        self.mse_ = np.mean( (self.predict(self.X_) - self.y_) ** 2 )
+        return self.mse_
+
+    def pretty_print_stats(self):
+        '''returns report of statistics for a given model object'''
+        items = ( ('sse:', self.sse()), ('sst:', self.sst()), 
+                 ('mse:', self.mse()), ('r^2:', self.r_squared()))
+        for item in items:
+            print('{0:8} {1:.4f}'.format(item[0], item[1]))
+
+    
+
+class MyRidge(MyMetrics):
     
     def __init__(self):
         self.coef_ = None
         
-    def fit(self, X, y, lambda=1):
+    def fit(self, X, y):
+
+        # Lets take lambda as a constant for now.
+        # Later optimize it as a metaparameter
+
+        lambda =1 
 
         # training data 
-        self.data = X
-        self.target = y
+        self.X_ = X
+        self.y_ = y
         
         # Compute covariance matrices
         XtX = X.T.dot(X)
@@ -36,3 +82,7 @@ class MyRidge():
 
     def predict(self,X):
         return np.dot(X, self.coef_) 
+
+    def resids(self):
+        return self.y_ - np.dot(self.X_, self.coef_)
+        
