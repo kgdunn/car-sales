@@ -12,6 +12,7 @@ from sklearn.base import BaseEstimator
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer, make_column_selector
+from sklearn.compose import make_column_selector as selector
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
@@ -32,21 +33,8 @@ columns_to_use = [
     "dateCreated",
 ]
 
-categorical_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
-    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
-
-
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('num', numeric_transformer, numeric_features),
-        ('cat', categorical_transformer, selector(dtype_include="category"))])
 # Joost: subset of the above
 numerical_columns = []
-
-# Linsey: subset of the above
-categorical_columns = []
-
 
 def read_data(filename, columns_to_use):
     """
@@ -73,13 +61,15 @@ def create_pipeline():
     num_pipeline = Pipeline(...)
 
     # Pipeline from Linsey
-    cat_pipeline = Pipeline(...)
+    cat_pipeline = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
 
     # Combine the two types of data:
     preprocessor = ColumnTransformer(
         transformers=[
             ("numerical", num_pipeline, numerical_columns),
-            ("categorical", cat_pipeline, categorical_columns),
+            ("categorical", cat_pipeline, selector(dtype_include="category")),
         ],
         remainder="drop",
     )
