@@ -51,12 +51,7 @@ class RidgeRegression(GeneralMetrics):
         self.coef_ = None
         
     def fit(self, X, y,kappa=1):
-
-        # Lets take lambda as a constant for now.
-        # Later optimize it as a metaparameter
-
-        kappa = 1 
-
+    
         # training data 
         self.X_ = X
         self.y_ = y
