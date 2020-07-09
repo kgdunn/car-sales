@@ -72,7 +72,7 @@ class RidgeRegression(GeneralMetrics):
     def resids(self):
         return self.y_ - np.dot(self.X_, self.coef_)
         
-
+'''
 # Make some fake data for testing
 X = np.random.rand(10,5)
 y = np.random.rand(10,1)
@@ -82,6 +82,7 @@ myRidge.fit(X,y,kappa)
 
 # Print some nice regression statistics
 myRidge.print_stats()
+'''
 
 ''' NOW CODE TOWARDS META OPTIMIZATION
 parameters = {‘lambda’, [0.01, 0.1 ,0,1 ,100,1000]}
