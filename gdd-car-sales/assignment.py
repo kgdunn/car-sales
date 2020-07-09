@@ -46,3 +46,4 @@ if __name__ == "__main__":
         X_train.shape, X_test.shape,
     )
     print(X_train.head())
+#preparing the details
