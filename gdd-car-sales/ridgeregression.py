@@ -36,7 +36,7 @@ class GeneralMetrics:
         self.mse_ = np.mean( (self.predict(self.X_) - self.y_) ** 2 )
         return self.mse_
 
-    def pretty_print_stats(self):
+    def print_stats(self):
         '''returns report of statistics for a given model object'''
         items = ( ('sse:', self.sse()), ('sst:', self.sst()), 
                  ('mse:', self.mse()), ('r^2:', self.r_squared()))
@@ -73,7 +73,6 @@ class RidgeRegression(GeneralMetrics):
         return self.y_ - np.dot(self.X_, self.coef_)
         
 
-
 # Make some fake data for testing
 X = np.random.rand(10,5)
 y = np.random.rand(10,1)
@@ -82,7 +81,7 @@ myRidge = RidgeRegression()
 myRidge.fit(X,y,kappa)
 
 # Print some nice regression statistics
-myRidge.pretty_print_stats()
+myRidge.print_stats()
 
 ''' NOW CODE TOWARDS META OPTIMIZATION
 parameters = {‘lambda’, [0.01, 0.1 ,0,1 ,100,1000]}
