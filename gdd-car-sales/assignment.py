@@ -59,7 +59,9 @@ def create_pipeline():
 
     # Pipeline from Joost
     num_pipeline = Pipeline(...)
-
+    #
+    #
+    
     # Pipeline from Linsey
     cat_pipeline = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
