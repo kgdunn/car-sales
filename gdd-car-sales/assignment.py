@@ -60,7 +60,7 @@ def create_pipeline():
     # Pipeline from Joost
     num_pipeline = Pipeline(...)
     #    num_pipeline = Pipeline(steps=[
-    #    ("impute", SimpleImputer(strategy="mean")),
+    #   ("impute", SimpleImputer(strategy="mean")),
     #    ("scale", StandardScaler())
     #])
     #
