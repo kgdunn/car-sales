@@ -6,7 +6,6 @@ import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 
-
 def read_data(filename):
     """
     Reads the CSV files; calculates features (age) and selects row & column subset
@@ -26,6 +25,7 @@ def read_data(filename):
         "yearOfRegistration",
         "dateCreated",
     ]
+    # Add only numerical columns
     df = df[cols]
 
     # Age column = (date of ad placement: extract only the year) - registration
