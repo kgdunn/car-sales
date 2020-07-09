@@ -4,16 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
-''' TOWARDS
-myRidge = MyRidge()
-parameters = {‘lambda’, [0.01, 0.1 ,0,1 ,100,1000]}
-myRidgeReg = GridSearchCV(..)
-myRidgeReg.fit(X,y)
-''' 
-
-
-class MyMetrics:
+class GeneralMetrics:
     
     def sse(self):
         '''returns sum of squared errors (model vs actual)'''
@@ -54,17 +45,17 @@ class MyMetrics:
 
     
 
-class MyRidge(MyMetrics):
+class RidgeRegression(GeneralMetrics):
     
     def __init__(self):
         self.coef_ = None
         
-    def fit(self, X, y):
+    def fit(self, X, y,kappa=1):
 
         # Lets take lambda as a constant for now.
         # Later optimize it as a metaparameter
 
-        lambda =1 
+        kappa = 1 
 
         # training data 
         self.X_ = X
@@ -73,10 +64,10 @@ class MyRidge(MyMetrics):
         # Compute covariance matrices
         XtX = X.T.dot(X)
         Xty = X.T.dot(y)
-        m = X.shape[0]        
+        m = X.shape[1]        
         
         # Do Ridge regression
-        coef = np.linalg.inv(XtX +lambda*np.eye(m)).dot(Xty)
+        coef = np.linalg.inv(XtX + kappa*np.eye(m)).dot(Xty)
 
         self.coef_ =coef
 
@@ -86,3 +77,20 @@ class MyRidge(MyMetrics):
     def resids(self):
         return self.y_ - np.dot(self.X_, self.coef_)
         
+
+
+# Make some fake data for testing
+X = np.random.rand(10,5)
+y = np.random.rand(10,1)
+kappa=1
+myRidge = RidgeRegression()
+myRidge.fit(X,y,kappa)
+
+# Print some nice regression statistics
+myRidge.pretty_print_stats()
+
+''' NOW CODE TOWARDS META OPTIMIZATION
+parameters = {‘lambda’, [0.01, 0.1 ,0,1 ,100,1000]}
+myRidgeReg = GridSearchCV(..)
+myRidgeReg.fit(X,y)
+''' 
